@@ -16,7 +16,7 @@ def experiment_4():
     
     scene.diversify_city_blocks()
     
-    scene.set_rule_files({"park": "rules/parks.cga", "street": "rules/Complete_Street.cga", "lot": {"file": "/ESRI.lib/rules/Buildings/Building_From_Footprint.cga", "start": "Generate"}})
+    scene.set_rule_files({"park": "rules/parks.cga", "street": "rules/CompleteStreet-customized.cga", "lot": {"file": "/ESRI.lib/rules/Buildings/Building_From_Footprint.cga", "start": "Generate"}})
     
     vp = scene.get_current_viewport()
     
