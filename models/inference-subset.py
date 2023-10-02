@@ -146,14 +146,14 @@ flat_preds_1_resnet34, dice, sens, speci, test_paths_1_resnet34 = inference(
     long_path=Path("./experiment-1-resnet34"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet34
 )
 print(
-    f"Model 1 (ResNet34) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(dice, 4)}"
+    f"Model 1 (ResNet34) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(speci, 4)}"
 )
 
 flat_preds_1_resnet50, dice, sens, speci, test_paths_1_resnet50 = inference(
     long_path=Path("./experiment-1-resnet50"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet50
 )
 print(
-    f"Model 1 (ResNet50) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(dice, 4)}"
+    f"Model 1 (ResNet50) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(speci, 4)}"
 )
 
 ## Experiment 2
@@ -161,27 +161,29 @@ flat_preds_2_resnet34, dice, sens, speci, test_paths_2_resnet34 = inference(
     long_path=Path("./experiment-2-resnet34"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet34
 )
 print(
-    f"Model 2 (ResNet34) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(dice, 4)}"
+    f"Model 2 (ResNet34) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(speci, 4)}"
 )
 
 flat_preds_2_resnet50, dice, sens, speci, test_paths_2_resnet50 = inference(
     long_path=Path("./experiment-2-resnet50"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet50
 )
 print(
-    f"Model 2 (ResNet50) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(dice, 4)}"
+    f"Model 2 (ResNet50) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(speci, 4)}"
 )
 
 ## Experiment 3
 flat_preds_3_resnet34, dice, sens, speci, test_paths_3_resnet34 = inference(
     long_path=Path("./experiment-3-resnet34"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet34
 )
-print(f"Model 3 (ResNet34) achieved a dice accuracy of {round(dice, 4)}")
+print(
+    f"Model 3 (ResNet34) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(speci, 4)}"
+)
 
 flat_preds_3_resnet50, dice, sens, speci, test_paths_3_resnet50 = inference(
     long_path=Path("./experiment-3-resnet50"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet50
 )
 print(
-    f"Model 3 (ResNet50) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(dice, 4)}"
+    f"Model 3 (ResNet50) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(speci, 4)}"
 )
 
 ## Experiment 4
@@ -189,28 +191,27 @@ flat_preds_4_resnet34, dice, sens, speci, test_paths_4_resnet34 = inference(
     long_path=Path("./experiment-4-resnet34"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet34
 )
 print(
-    f"Model 4 (ResNet34) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(dice, 4)}"
+    f"Model 4 (ResNet34) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(speci, 4)}"
 )
 
 flat_preds_4_resnet50, dice, sens, speci, test_paths_4_resnet50 = inference(
     long_path=Path("./experiment-4-resnet50"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet50
 )
 print(
-    f"Model 4 (ResNet50) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(dice, 4)}"
+    f"Model 4 (ResNet50) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(speci, 4)}"
 )
 
 ## Experiment 5
-# flat_preds_5_resnet34, dice, sens, speci, test_paths_5_resnet34 = inference(
-#     long_path=Path("./models/experiment-5_resnet34.pkl"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet34
-# )
-# print(
-#     f"Model 5 (ResNet34) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(dice, 4)}"
-# )
-#
-# flat_preds_5_resnet50, dice, sens, speci, test_paths_5_resnet50 = inference(
-#     long_path=Path("./models/experiment-5_resnet50.pkl"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet50
-# )
-# print(
-#     f"Model 5 (ResNet50) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(dice, 4)}"
-# )
-#
+flat_preds_5_resnet34, dice, sens, speci, test_paths_5_resnet34 = inference(
+    long_path=Path("./models/experiment-5_resnet34.pkl"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet34
+)
+print(
+    f"Model 5 (ResNet34) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(speci, 4)}"
+)
+
+flat_preds_5_resnet50, dice, sens, speci, test_paths_5_resnet50 = inference(
+    long_path=Path("./models/experiment-5_resnet50.pkl"), ds=Path("./data/validation/splitted-test"), mod_arch=models.resnet50
+)
+print(
+    f"Model 5 (ResNet50) achieved a dice accuracy of {round(dice, 4)}, sensitivity of {round(sens, 4)}, specificity of {round(speci, 4)}"
+)
