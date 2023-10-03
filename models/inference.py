@@ -9,6 +9,8 @@ from typing import Dict, List, Tuple
 import numpy as np
 import matplotlib as plt
 
+import sklearn
+
 import pickle
 
 import torch
@@ -51,18 +53,11 @@ syntrees_inf = DataBlock(
 
 
 def sensitivity(p: torch.tensor, t: torch.tensor) -> float:
-    tp = np.sum(np.array(p) * np.array(t))
-    if tp == 0 and np.sum(np.array(t)) == 0:
-        return 1.0
-    else:
-        return tp / np.sum(np.array(t))  # tp + fn => all positive pixels in gt
+    return sklearn.metrics.recall_score(t, p, average="micro", zero_division=np.nan, labels=[1])  # tp + fn => all positive pixels in gt
 
 
 def specificity(p: torch.tensor, t: torch.tensor) -> float:
-    tn = np.sum(np.array(np.equal(t, 0), dtype=np.uint) * np.array(np.equal(p, 0), dtype=np.uint))
-    fp = np.sum(np.array(np.equal(t, 0), dtype=np.uint) * np.array(p))
-    tp = np.sum(np.array(p) * np.array(t))
-    return tn / (tn + fp)
+    return sklearn.metrics.recall_score(t, p, average="micro", zero_division=np.nan, labels=[0])
 
 
 def avg_sensitivity(truths: List[torch.tensor], predictions: List[torch.tensor]) -> float:
@@ -70,7 +65,7 @@ def avg_sensitivity(truths: List[torch.tensor], predictions: List[torch.tensor])
     added_sensitivities = []
     for pred, truth in zip(predictions, truths):
         added_sensitivities.append(sensitivity(pred, truth))
-    return sum(added_sensitivities) / len(truths)
+    return np.nanmean(added_sensitivities)
 
 
 def avg_specificity(truths: List[torch.tensor], predictions: List[torch.tensor]) -> float:
@@ -78,16 +73,12 @@ def avg_specificity(truths: List[torch.tensor], predictions: List[torch.tensor])
     added_specificities = []
     for pred, truth in zip(predictions, truths):
         added_specificities.append(specificity(pred, truth))
-    return sum(added_specificities) / len(truths)
+    return np.nanmean(added_specificities)
 
 
 def dice(p: torch.tensor, t: torch.tensor) -> float:
-    tp = np.sum(np.array(p) * np.array(t))
-    area = np.sum(np.array(p)) + np.sum(np.array(t))  # 2 * tp + fn + fp => (tp + fp) + (tp + fn) => p == 1 + t == 1
-    if tp == 0 and area == 0:
-        return 1.0
-    else:
-        return float((2 * tp) / area)
+    jac = sklearn.metrics.jaccard_score(t, p, average="micro", zero_division=1.0)
+    return (2 * jac) / (1 + jac)
 
 
 def NicerDicer(truths: List[torch.tensor], predictions: List[torch.tensor]) -> float:
@@ -95,7 +86,7 @@ def NicerDicer(truths: List[torch.tensor], predictions: List[torch.tensor]) -> f
     added_dices = []
     for pred, truth in zip(predictions, truths):
         added_dices.append(float(dice(pred, truth)))
-    return sum(added_dices) / len(truths)
+    return np.nanmean(added_dices)
 
 
 # https://benjaminwarner.dev/2021/10/01/inference-with-fastai
@@ -110,7 +101,7 @@ def inference(
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=UserWarning)  # ignore known UserWarnings about pretrained models
         dls: DataLoaders = syntrees_inf.dataloaders(
-            ds / "real", bs=8
+            ds / "real", bs=4
         )  # pseudo data set; not used; batch size could be anything but acutally does have an influence
         dls.vocab = image_classes
         dls.c = len(image_classes)
@@ -226,7 +217,7 @@ for a, f in zip(flat_preds_4_resnet50, test_paths_4_resnet50):
     array2img(a, Path("./data/validation/prediction-masks/experiment-4_resnet50/"), f)
 
 ## Experiment 5
- flat_preds_5_resnet34, dice, sens, speci, test_paths_5_resnet34 = inference(
+flat_preds_5_resnet34, dice, sens, speci, test_paths_5_resnet34 = inference(
      long_path=Path("./models/experiment-5_resnet34.pkl"), ds=Path("./data/validation"), mod_arch=models.resnet34
 )
 print(
