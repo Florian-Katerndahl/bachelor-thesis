@@ -9,7 +9,7 @@ from typing import Dict, List, Tuple
 import numpy as np
 import matplotlib as plt
 
-import sklearn
+from sklearn.metrics import recall_score, jaccard_score
 
 import pickle
 
@@ -53,11 +53,11 @@ syntrees_inf = DataBlock(
 
 
 def sensitivity(p: torch.tensor, t: torch.tensor) -> float:
-    return sklearn.metrics.recall_score(np.array(t), np.array(p), average="micro", zero_division=np.nan, labels=[1])  # tp + fn => all positive pixels in gt
+    return recall_score(np.array(t).ravel(), np.array(p).ravel(), zero_division=0, pos_label=1)
 
 
 def specificity(p: torch.tensor, t: torch.tensor) -> float:
-    return sklearn.metrics.recall_score(np.array(t), np.array(p), average="micro", zero_division=np.nan, labels=[0])
+    return recall_score(np.array(t).ravel(), np.array(p).ravel(), zero_division=0, pos_label=0)
 
 
 def avg_sensitivity(truths: List[torch.tensor], predictions: List[torch.tensor]) -> float:
@@ -77,7 +77,7 @@ def avg_specificity(truths: List[torch.tensor], predictions: List[torch.tensor])
 
 
 def dice(p: torch.tensor, t: torch.tensor) -> float:
-    jac = sklearn.metrics.jaccard_score(np.array(t), np.array(p), average="micro", zero_division=1.0)
+    jac = jaccard_score(np.array(t).ravel(), np.array(p).ravel(), zero_division=1.0)
     return (2.0 * jac) / (1.0 + jac)
 
 
